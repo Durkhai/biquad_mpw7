@@ -13,6 +13,10 @@
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
 
+`ifndef MPRJ_IO_PADS
+`define MPRJ_IO_PADS 38
+`endif
+
 `default_nettype none
 /*
  *-------------------------------------------------------------
@@ -82,7 +86,8 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
-user_proj_example mprj (
+
+bqmain bqmain0 (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
 	.vssd1(vssd1),	// User area 1 digital ground
@@ -93,30 +98,25 @@ user_proj_example mprj (
 
     // MGMT SoC Wishbone Slave
 
-    .wbs_cyc_i(wbs_cyc_i),
-    .wbs_stb_i(wbs_stb_i),
-    .wbs_we_i(wbs_we_i),
-    .wbs_sel_i(wbs_sel_i),
-    .wbs_adr_i(wbs_adr_i),
-    .wbs_dat_i(wbs_dat_i),
-    .wbs_ack_o(wbs_ack_o),
-    .wbs_dat_o(wbs_dat_o),
+    .wb_cyc_i(wbs_cyc_i),
+    .wb_stb_i(wbs_stb_i),
+    .wb_we_i(wbs_we_i),
+    .wb_adr_i(wbs_adr_i),
+    .wb_dat_i(wbs_dat_i),
+    .wb_ack_o(wbs_ack_o),
+    .wb_dat_o(wbs_dat_o),
 
-    // Logic Analyzer
-
-    .la_data_in(la_data_in),
-    .la_data_out(la_data_out),
-    .la_oenb (la_oenb),
+    .nreset(la_data_in[16]),
 
     // IO Pads
+    .bq_clk_i(user_clock2),
+    .x(io_in[19:8]),
+    //.x(la_data_in[31:20]),
+    .y(la_data_out[11:0])
 
-    .io_in (io_in),
-    .io_out(io_out),
-    .io_oeb(io_oeb),
-
-    // IRQ
-    .irq(user_irq)
 );
+
+
 
 endmodule	// user_project_wrapper
 
