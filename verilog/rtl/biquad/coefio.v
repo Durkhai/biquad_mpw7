@@ -42,7 +42,7 @@ module coefio # (
 	output wire ack_o,
 	input	[31:0]	dat_i,
 	output	[31:0]	dat_o,
-	input	[3:0]	adr_i,
+	input	[31:0]	adr_i,
 	output  reg [31:0]	a11,
 	output	reg [31:0]	a12,
 	output	reg [31:0]	b10,
@@ -60,6 +60,7 @@ wire		sel_b12;
 wire        sel_y;
 wire        sel_x;
 
+/*
 assign sel_a11 = (adr_i == 4'b0000);  
 assign sel_a12 = (adr_i == 4'b0001);
 assign sel_b10 = (adr_i == 4'b0010);
@@ -67,7 +68,15 @@ assign sel_b11 = (adr_i == 4'b0011);
 assign sel_b12 = (adr_i == 4'b0100);
 assign sel_x   = (adr_i == 4'b0101);
 assign sel_y   = (adr_i == 4'b0110);
+*/
 
+assign sel_a11 = (adr_i == 4'h30000000);  
+assign sel_a12 = (adr_i == 4'h30000004);
+assign sel_b10 = (adr_i == 4'h30000008);
+assign sel_b11 = (adr_i == 4'h3000000c);
+assign sel_b12 = (adr_i == 4'h30000010);
+assign sel_x   = (adr_i == 4'h30000014);
+assign sel_y   = (adr_i == 4'h30000018);
 
 assign ack_o = stb_i;
 
